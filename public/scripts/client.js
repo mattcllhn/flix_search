@@ -1,17 +1,19 @@
 console.log('js sourced');
 var omdbArray = [];
 var flixArray = [];
-var clientArray = [];
+var userArray = [];
 
 var myApp = angular.module('myApp',[]);
 
 myApp.controller('testController',['$scope','$http',function($scope,$http){
   console.log('NG');
-  $scope.search = function(actorIn){
-    //function to verify inputs
+  $scope.search = function(actorIn,ratingIn){
+    console.log('ratingIn',ratingIn);
     var actor = encodeURI(actorIn);
     console.log('actorIn',actor);
-
+    if(actor.length<5){
+      actor+='%20';
+    }
     var flixUrl = 'http://netflixroulette.net/api/api.php?actor='+actor;
     console.log('flixUrl',flixUrl);
 
@@ -32,7 +34,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       $scope.dataBack=results;
 
       for (var i = 0; i < results.length; i++) {
-        console.log('above http call');
+        // console.log('above http call');
         omdbUrl = 'http://www.omdbapi.com/?t='+results[i].show_title+'&r=json';
         $http({
           method:'GET',
@@ -40,26 +42,23 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
 
           //----------------------------------break this up because it's async -->getting errors in larger calls
         }).then(function(omdbData){
-          console.log('inside .then ');
-          // console.log('omdbData',omdbData);
-          // if(Number(omdbData.data.imdbRating)){
-            // console.log(omdbData.data.Title+' is not good enough');
-          // }else{
-            // console.log(omdbData.data.Title + ' is good enough');
-
           omdbArray.push(omdbData.data);
-        // }
-          // $scope.omdbDataBack=omdbData;
-
         });//end http.then function
       }//for loop
+      $scope.display(ratingIn);
       console.log('omdbArray',omdbArray);
-
     }//compareMovies
   };//scope.actorIn
-  $scope.display = function(){
-
+  $scope.display = function(ratingIn){
+    var userRating = Number(ratingIn);
+    for (var i = 0; i < omdbArray.length; i++) {
+      if (omdbArray[i].imdbRating<userRating) {
+        console.log(omdbArray[i].Title +'is not good enough');
+      }else{
+        userArray.push(omdbArray[i]);
+      }//else
+    }//for loop
+    console.log('userArray',userArray);
     $scope.seeMovies = omdbArray;
-  };
-  $scope.display();
+  };//scope.display function
 }]);//myApp.testController
