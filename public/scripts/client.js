@@ -15,11 +15,20 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         compareMovies(flixData);
     });//end http.then function
     function compareMovies(dataIn){
-      console.log('data',dataIn.data);
-      $scope.dataBack=dataIn.data;
+      var results = dataIn.data;
+      console.log('data',results);
+      $scope.dataBack=results;
 
-      for (var i = 0; i < dataIn.length; i++) {
-
+      for (var i = 0; i < results.length; i++) {
+        console.log('results.show_title',results[i].show_title);
+        omdbUrl = 'http://www.omdbapi.com/?t='+results[i].show_title+'&r=json';
+        $http({
+          method:'GET',
+          url:omdbUrl
+        }).then(function(omdbData){
+          console.log('omdbData',omdbData);
+          // $scope.omdbDataBack=omdbData;
+        });//end http.then function
       }//for loop
 
     }//compareMovies
