@@ -36,24 +36,27 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
     if(director.length<5){
       director+='%20';
     }
+    if (rating.isNaN) {
+      rating = 0;
+    }
     console.log('formatted inputs ',actor,director, rating, award);
     //clear inputs
-    $scope.actorIn = '';
-    $scope.directorIn= '';
-    $scope.ratingIn= '';
-    $scope.awardIn= '';
+    // $scope.actorIn = '';
+    // $scope.directorIn= '';
+    // $scope.ratingIn= '';
+    // $scope.awardIn= '';
     //call search function
 
     search(actor,director,rating,award);
   };//sanitizeInputs
-  $scope.search = function(actorIn,ratingIn){
+  search = function(actorIn,ratingIn){
 
 
     var flixUrl = 'http://netflixroulette.net/api/api.php?actor=';
     console.log('flixUrl',flixUrl);
 
     //---------------------------------------------->compile url based on search fields filled out actor&director&ect.
-    var omdbUrl = 'http://www.omdbapi.com/?t='+actor+'&r=json';
+    var omdbUrl = 'http://www.omdbapi.com/?t='+'&r=json';
     // $http({
     //   method:'GET',
     //   url:flixUrl,
@@ -83,7 +86,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       $scope.display(ratingIn);
       console.log('omdbArray',omdbArray);
     }//compareMovies
-  };//scope.actorIn
+  };//search function
   $scope.display = function(ratingIn){
     var userRating = Number(ratingIn);
     for (var i = 0; i < omdbArray.length; i++) {
