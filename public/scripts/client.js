@@ -19,8 +19,17 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       alert('Seach fields must be greater than 3 characters');
       location.reload();
     }
-    var actor = encodeURI(actorIn);
-    var director = encodeURI(directorIn);
+    var actor;
+    var director;
+    if (actorIn!== undefined){
+       actor = encodeURI(actorIn);
+    }else{
+       actor = undefined;}
+    if (directorIn!== undefined){
+       director = encodeURI(directorIn);
+    }else{
+       director = undefined;}
+
     var rating = Number(ratingIn);
     var award = false;
     //conditionals
@@ -30,65 +39,90 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       award = false;
     }
     // hack to add characters to search function becuase flix api requires more than 5 characters
-    if(actor.length<5){
+    if(actor !==undefined && actor.length<5){
       actor+='%20';
     }
-    if(director.length<5){
+    if(director !==undefined && director.length<5){
       director+='%20';
     }
-    if (rating.isNaN) {
+    if (isNaN(rating)===true) {
       rating = 0;
     }
-    console.log('formatted inputs ',actor,director, rating, award);
+    // console.log('formatted inputs ',actor,director, rating, award);
     //clear inputs
-    // $scope.actorIn = '';
-    // $scope.directorIn= '';
-    // $scope.ratingIn= '';
-    // $scope.awardIn= '';
+    $scope.actorIn = undefined;
+    $scope.directorIn= undefined;
+    $scope.ratingIn= undefined;
+    $scope.awardIn= undefined;
     //call search function
 
     search(actor,director,rating,award);
   };//sanitizeInputs
-  search = function(actorIn,ratingIn){
 
+//search flix api and loop through results hitting omdb api using title of each result
+  search = function(factor,fdirector,frating,faward){
+    console.log(typeof factor);
+    var omdbUrl = 'http://www.omdbapi.com/?t='+'&r=json';
+    var flixUrl = 'http://netflixroulette.net/api/api.php';
+    var compiledParams = '';
+console.log('in search function',factor,fdirector,frating,faward);
+    //conditionals to build compiledParams
+    //both filled in
+  if(factor!== undefined && fdirector!== undefined){
+    console.log('both filled in');
+    compiledParams+=('?actor='+factor+'&?director='+fdirector);
+  }
+  //blank actor
+else if (factor=== undefined && fdirector!== undefined){
+  console.log('director filled in');
 
-    var flixUrl = 'http://netflixroulette.net/api/api.php?actor=';
+  compiledParams+=('?director='+fdirector);
+}
+//blank director
+else if (factor!== undefined && fdirector=== undefined) {
+  console.log('actor filled in');
+
+  compiledParams+=('?actor='+factor);
+}
+  //both blank
+    console.log(compiledParams);
+    //add compiledParams to flixUrl
+      flixUrl+=compiledParams;
     console.log('flixUrl',flixUrl);
 
-    //---------------------------------------------->compile url based on search fields filled out actor&director&ect.
-    var omdbUrl = 'http://www.omdbapi.com/?t='+'&r=json';
-    // $http({
-    //   method:'GET',
-    //   url:flixUrl,
-    // }).then(function(flixData){
-    //     compareMovies(flixData);
-    //     flixArray = flixData.data;
-    //     console.log('flixArray',flixArray);
-    // });//end http.then function
+    //hits flix api
+    $http({
+      method:'GET',
+      url:flixUrl,
+    }).then(function(flixData){
+        compareMovies(flixData);
+        flixArray = flixData.data;
+        console.log('flixArray',flixArray);
+    });//end http.then function
     function compareMovies(dataIn){
       omdbArray = [];
       var results = dataIn.data;
       // console.log('data',results);
       $scope.dataBack=results;
-
       for (var i = 0; i < results.length; i++) {
         // console.log('above http call');
         omdbUrl = 'http://www.omdbapi.com/?t='+results[i].show_title+'&r=json';
+        //hits omdb api in for loop
         $http({
           method:'GET',
           url:omdbUrl
-
-          //----------------------------------break this up because it's async -->getting errors in larger calls
         }).then(function(omdbData){
           omdbArray.push(omdbData.data);
         });//end http.then function
       }//for loop
-      $scope.display(ratingIn);
+      display();
       console.log('omdbArray',omdbArray);
     }//compareMovies
   };//search function
-  $scope.display = function(ratingIn){
-    var userRating = Number(ratingIn);
+
+  //filter omdb array by rating and award status and package in a scoped variable
+  var display = function(ratingIn){
+
     for (var i = 0; i < omdbArray.length; i++) {
       if (omdbArray[i].imdbRating<userRating) {
         console.log(omdbArray[i].Title +'is not good enough');
