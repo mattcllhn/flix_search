@@ -38,7 +38,7 @@
         <option value = "yes">Yes</option>
       </select>
 
-      <button type="button" name="button" ng-click="search(actorIn,ratingIn)">click</button>
+      <button type="button" name="button" ng-click="sanitizeInputs(actorIn,ratingIn)">click</button>
 
       <div ng-repeat = "x in seeMovies">
         <h3>{{x.Title}}</h3>

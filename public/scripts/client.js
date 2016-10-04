@@ -4,16 +4,20 @@ var flixArray = [];
 var userArray = [];
 
 var myApp = angular.module('myApp',[]);
-
+//search > hit flix & omdb apis, append to arrays
+//filter info > build userArray based on input conditionals
+//display info > anular whatever- could be put into display or whatever
 myApp.controller('testController',['$scope','$http',function($scope,$http){
   console.log('NG');
+  //sanitize inputs >marshall & format variables, clear inputs
+
+  $scope.sanitizeInputs = function(){
+    //format inputs
+    //conditionals
+    //call search function
+  };//sanitizeInputs
   $scope.search = function(actorIn,ratingIn){
-    console.log('ratingIn',ratingIn);
-    var actor = encodeURI(actorIn);
-    console.log('actorIn',actor);
-    if(actor.length<5){
-      actor+='%20';
-    }
+
     var flixUrl = 'http://netflixroulette.net/api/api.php?actor='+actor;
     console.log('flixUrl',flixUrl);
 
