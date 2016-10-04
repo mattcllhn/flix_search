@@ -10,8 +10,8 @@
     <h1>Index.html here</h1>
 
     <div ng-controller="testController">
-      <input type="text" name="name" value=""ng-model = "actorIn" placeholder="Filter by Actor">
-      <input type="text" name="name" value=""ng-model = "directorIn" placeholder="Filter by director">
+      <input    type="text" name="name" value=""ng-model = "actorIn" placeholder="Filter by Actor">
+      <input  type="text" name="name" value=""ng-model = "directorIn" placeholder="Filter by director">
       <select class="" name="rating" ng-model = "ratingIn">
         <option>10</option>
         <option>9.5</option>
@@ -33,12 +33,12 @@
         <option>1.5</option>
         <option>1</option>
       </select>
-      <select class="" name="awards" ng-model = "awards">
+      <select class="" name="awards" ng-model = "awardIn">
         <option value = "no">No</option>
         <option value = "yes">Yes</option>
       </select>
 
-      <button type="button" name="button" ng-click="sanitizeInputs(actorIn,ratingIn)">click</button>
+      <button type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">click</button>
 
       <div ng-repeat = "x in seeMovies">
         <h3>{{x.Title}}</h3>

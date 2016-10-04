@@ -2,35 +2,66 @@ console.log('js sourced');
 var omdbArray = [];
 var flixArray = [];
 var userArray = [];
-
+var blobjectToSend = [];
 var myApp = angular.module('myApp',[]);
-//search > hit flix & omdb apis, append to arrays
+//search > hit flix & omdb apis, append to global arrays
 //filter info > build userArray based on input conditionals
 //display info > anular whatever- could be put into display or whatever
 myApp.controller('testController',['$scope','$http',function($scope,$http){
   console.log('NG');
   //sanitize inputs >marshall & format variables, clear inputs
 
-  $scope.sanitizeInputs = function(){
+  $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn,awardIn){
     //format inputs
+    console.log('raw inputs',actorIn, directorIn,ratingIn,awardIn);
+    //set minimum length
+    if( actorIn!==undefined && actorIn.length<3 || directorIn!==undefined && directorIn.length<3 ){
+      alert('Seach fields must be greater than 3 characters');
+      location.reload();
+    }
+    var actor = encodeURI(actorIn);
+    var director = encodeURI(directorIn);
+    var rating = Number(ratingIn);
+    var award = false;
     //conditionals
+    if(awardIn == 'yes'){
+      award = true;
+    }else{
+      award = false;
+    }
+    // hack to add characters to search function becuase flix api requires more than 5 characters
+    if(actor.length<5){
+      actor+='%20';
+    }
+    if(director.length<5){
+      director+='%20';
+    }
+    console.log('formatted inputs ',actor,director, rating, award);
+    //clear inputs
+    $scope.actorIn = '';
+    $scope.directorIn= '';
+    $scope.ratingIn= '';
+    $scope.awardIn= '';
     //call search function
+
+    search(actor,director,rating,award);
   };//sanitizeInputs
   $scope.search = function(actorIn,ratingIn){
 
-    var flixUrl = 'http://netflixroulette.net/api/api.php?actor='+actor;
+
+    var flixUrl = 'http://netflixroulette.net/api/api.php?actor=';
     console.log('flixUrl',flixUrl);
 
     //---------------------------------------------->compile url based on search fields filled out actor&director&ect.
     var omdbUrl = 'http://www.omdbapi.com/?t='+actor+'&r=json';
-    $http({
-      method:'GET',
-      url:flixUrl,
-    }).then(function(flixData){
-        compareMovies(flixData);
-        flixArray = flixData.data;
-        console.log('flixArray',flixArray);
-    });//end http.then function
+    // $http({
+    //   method:'GET',
+    //   url:flixUrl,
+    // }).then(function(flixData){
+    //     compareMovies(flixData);
+    //     flixArray = flixData.data;
+    //     console.log('flixArray',flixArray);
+    // });//end http.then function
     function compareMovies(dataIn){
       omdbArray = [];
       var results = dataIn.data;
