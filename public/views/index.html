@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>What's good on Netflix</title>
+    <link rel="stylesheet" href="../vendors/bootstrap.min.css" media="screen" title="no title">
     <script src="../vendors/angular.min.js" charset="utf-8"></script>
     <script src="../scripts/client.js" charset="utf-8"></script>
   </head>
@@ -38,9 +39,10 @@
         <option value = "yes">Yes</option>
       </select>
 
-      <button type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">click</button>
+      <button ng-show = "ratingIn===undefined"type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Random Search</button>
+      <button ng-show = "ratingIn!==undefined"type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Search</button>
 
-      <div  ng-repeat = "x in seeMovies">
+      <div  ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
         <h3>{{x.Title}}</h3>
         <p>
           {{x.Plot}}

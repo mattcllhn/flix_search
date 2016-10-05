@@ -70,32 +70,39 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         // console.log('in search function',factor,fdirector,frating,faward);
         //conditionals to build compiledParams
         //both filled in
-        if(factor!== undefined && fdirector!== undefined){
+        if (factor=== undefined && fdirector=== undefined){
+          console.log('mock blank function call');
+          compiledParams = '?actor='+randomName();
+          console.log('in the conditional',compiledParams);
+
+          // blankFlix();
+        }
+        else if(factor!== undefined && fdirector!== undefined){
           compiledParams+=('?actor='+factor+'&?director='+fdirector);
           console.log('both filled in',compiledParams);
-          flixUrl+=compiledParams;
-          userFlix(flixUrl);
+          // flixUrl+=compiledParams;
+          // userFlix(flixUrl);
         }
         //blank actor
         else if (factor=== undefined && fdirector!== undefined){
           compiledParams+=('?director='+fdirector);
           console.log('director filled in',compiledParams);
-          flixUrl+=compiledParams;
-          userFlix(flixUrl);
+          // flixUrl+=compiledParams;
+          // userFlix(flixUrl);
         }
         //blank director
         else if (factor!== undefined && fdirector=== undefined) {
           compiledParams+=('?actor='+factor);
           console.log('actor filled in',compiledParams);
-          flixUrl+=compiledParams;
-          userFlix(flixUrl);
+          // flixUrl+=compiledParams;
+          // userFlix(flixUrl);
         }
+
+        flixUrl+=compiledParams;
+        userFlix(flixUrl);
+
+
         // both blank
-        else if (factor=== undefined && fdirector=== undefined){
-          console.log('mock blank function call');
-          blankFlix();
-        // ----------------------------------------------------------------->loop with actor = blobjectToSend
-        }
         // console.log(compiledParams);
         //add compiledParams to flixUrl
         // flixUrl+=compiledParams;
@@ -168,14 +175,11 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
             }).then(function(omdbData){
               // console.log('index of omdbData',omdbData.data);
               omdbArray.push(omdbData.data);
-
               if(omdbArray.length<flixArray.length){
                 console.log('in the omdb.then if',omdbData);
-
               }else{
                 console.log('in the omdb.then else, fire!');
                 console.log('omdbArray',omdbArray);
-
               }
               // console.log('omdbData',omdbData);
             });//end http.then function
@@ -183,4 +187,11 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           console.log('omdbArray',omdbArray);
           $scope.seeMovies = omdbArray;
         }//compareMovies
+        function randomName(){
+          var nameArray = ['smith','johnson','williams','jones','brown','davis','miller','wilson','moore','taylor'];
+          console.log('random number',Math.round(Math.random()*10));
+        var randomName = nameArray[Math.round(Math.random()*10)];
+        return randomName;
+
+        }
     }]);//myApp.testController
