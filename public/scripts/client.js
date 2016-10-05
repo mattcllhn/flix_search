@@ -107,7 +107,6 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           method:'GET',
           url:search,
         }).then(function(flixData){
-
           console.log(flixData);
           flixArray=flixData.data;
           console.log('flixArray',flixArray);
@@ -169,8 +168,10 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
             }).then(function(omdbData){
               // console.log('index of omdbData',omdbData.data);
               omdbArray.push(omdbData.data);
+
               if(omdbArray.length<flixArray.length){
-                console.log('in the omdb.then if');
+                console.log('in the omdb.then if',omdbData);
+
               }else{
                 console.log('in the omdb.then else, fire!');
                 console.log('omdbArray',omdbArray);
