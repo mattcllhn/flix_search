@@ -40,7 +40,7 @@
 
       <button type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">click</button>
 
-      <div ng-show = "x.imdbRating >= rating" ng-repeat = "x in seeMovies">
+      <div  ng-repeat = "x in seeMovies">
         <h3>{{x.Title}}</h3>
         <p>
           {{x.Plot}}
@@ -49,6 +49,8 @@
         {{x}}
 
       </div>
-    </div>
+
   </body>
 </html>
+
+<!-- ng-show = "x.imdbRating >= ratingIn" -->
