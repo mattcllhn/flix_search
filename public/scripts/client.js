@@ -118,26 +118,45 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       //hits several times with a predetermined set of names
       function blankFlix(){
         console.log('hello from blankFlix');
-        var nameArray = ['clint','robin'];
+        var nameArray = ['clint'];
         var searchUrl;
+        var j=0;
         for (var i = 0; i < nameArray.length; i++) {
         searchUrl = 'http://netflixroulette.net/api/api.php?actor='+nameArray[i];
         $http({
           method:'GET',
           url:searchUrl,
         }).then(function(flixData){
+          flixArray.push(flixData.data);
+          if (j<(nameArray.length-1)) {
+            console.log('in the flix if');
+            console.log('nameArray.length',nameArray.length-1);
+            console.log('iterator value',j);
+            j++;
+          }else{
+            console.log('in the flix else= mock function call');
+            console.log('nameArray.length',nameArray.length-1);
+            console.log('iterator value',j);
+            console.log('flixArray',flixArray);
+            console.log('flixArray',flixArray[0][1]);
+            console.log('flixArray',flixArray[0][2]);
+            console.log('flixArray',flixArray[0][3]);
+            console.log('flixArray',flixArray[0][4]);
+            console.log('flixArray',flixArray[0][5]);
+            console.log('flixArray',flixArray[0][6]);
 
-          console.log(flixData);
-          flixArray+=flixData.data;
-          console.log('flixArray',flixArray);
-          omdbSearcher(flixArray);
+            // omdbSearcher(flixArray);
+          }
+
 
         });//end http.then function
-      }
+      }//for loop
+
     }//blankFlix
 
         function omdbSearcher(dataIn){
-          // omdbArray = [];
+          console.log('omdbsearcher called');
+          omdbArray = [];
           // console.log('data',results);
           // $scope.dataBack=results;
           for (var i = 0; i < dataIn.length; i++) {
@@ -154,11 +173,13 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
                 console.log('in the omdb.then if');
               }else{
                 console.log('in the omdb.then else, fire!');
+                console.log('omdbArray',omdbArray);
 
               }
               // console.log('omdbData',omdbData);
             });//end http.then function
           }//for loop
+          console.log('omdbArray',omdbArray);
           $scope.seeMovies = omdbArray;
         }//compareMovies
     }]);//myApp.testController
