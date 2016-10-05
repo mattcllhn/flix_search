@@ -2,7 +2,6 @@ console.log('js sourced');
 var omdbArray = [];
 var flixArray = [];
 var userArray = [];
-var blobjectToSend = [];
 var myApp = angular.module('myApp',[]);
 //search > hit flix & omdb apis, append to global arrays
 //filter info > build userArray based on input conditionals
@@ -13,7 +12,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
   $scope.tester=[];
   //sanitize inputs >marshall & format variables, clear inputs
   $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn,awardIn){
-    console.log('raw inputs',actorIn, directorIn,ratingIn,awardIn);
+    // console.log('raw inputs',actorIn, directorIn,ratingIn,awardIn);
     //set minimum input length
     if( actorIn!==undefined && actorIn.length<3 || directorIn!==undefined && directorIn.length<3 ){
       alert('Seach fields must be greater than 3 characters');
@@ -59,62 +58,91 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         $scope.ratingIn= undefined;
         $scope.awardIn= undefined;
         //call search function
-        search(actor,director,rating,award);
+        urlBuilder(actor,director,rating,award);
       };//sanitizeInputs
 
       //search flix api and loop through results hitting omdb api using title of each result
-      var  search = function(factor,fdirector,frating,faward){
-        console.log(typeof factor);
+      var  urlBuilder = function(factor,fdirector,frating,faward){
+        // console.log(typeof factor);
         var omdbUrl = 'http://www.omdbapi.com/?t='+'&r=json';
         var flixUrl = 'http://netflixroulette.net/api/api.php';
         var compiledParams = '';
-        console.log('in search function',factor,fdirector,frating,faward);
+        // console.log('in search function',factor,fdirector,frating,faward);
         //conditionals to build compiledParams
         //both filled in
         if(factor!== undefined && fdirector!== undefined){
-          // console.log('both filled in');
           compiledParams+=('?actor='+factor+'&?director='+fdirector);
+          console.log('both filled in',compiledParams);
+          flixUrl+=compiledParams;
+          userFlix(flixUrl);
         }
         //blank actor
         else if (factor=== undefined && fdirector!== undefined){
-          // console.log('director filled in');
           compiledParams+=('?director='+fdirector);
+          console.log('director filled in',compiledParams);
+          flixUrl+=compiledParams;
+          userFlix(flixUrl);
         }
         //blank director
         else if (factor!== undefined && fdirector=== undefined) {
-          // console.log('actor filled in');
           compiledParams+=('?actor='+factor);
+          console.log('actor filled in',compiledParams);
+          flixUrl+=compiledParams;
+          userFlix(flixUrl);
         }
         // both blank
-        // else if (factor=== undefined && fdirector=== undefined){
-        // compiledParams+=('?actor=Denzel');
+        else if (factor=== undefined && fdirector=== undefined){
+          console.log('mock blank function call');
+          blankFlix();
         // ----------------------------------------------------------------->loop with actor = blobjectToSend
-        // }
-        console.log(compiledParams);
+        }
+        // console.log(compiledParams);
         //add compiledParams to flixUrl
-        flixUrl+=compiledParams;
-        console.log('flixUrl',flixUrl);
-
+        // flixUrl+=compiledParams;
+        // userFlix(flixUrl);
         //hits flix api
+      };//search function
+      function userFlix(search){
         $http({
           method:'GET',
-          url:flixUrl,
+          url:search,
         }).then(function(flixData){
+
           console.log(flixData);
           flixArray=flixData.data;
           console.log('flixArray',flixArray);
-        }).then( function(){
-          console.log( 'in 2nd then' );
-          compareMovies(flixArray);
+          omdbSearcher(flixArray);
         });//end http.then function
-        function compareMovies(dataIn){
+      }//userFlix
+
+      //hits several times with a predetermined set of names
+      function blankFlix(){
+        console.log('hello from blankFlix');
+        var nameArray = ['clint','robin'];
+        var searchUrl;
+        for (var i = 0; i < nameArray.length; i++) {
+        searchUrl = 'http://netflixroulette.net/api/api.php?actor='+nameArray[i];
+        $http({
+          method:'GET',
+          url:searchUrl,
+        }).then(function(flixData){
+
+          console.log(flixData);
+          flixArray+=flixData.data;
+          console.log('flixArray',flixArray);
+          omdbSearcher(flixArray);
+
+        });//end http.then function
+      }
+    }//blankFlix
+
+        function omdbSearcher(dataIn){
           // omdbArray = [];
-          var results = dataIn;
           // console.log('data',results);
           // $scope.dataBack=results;
-          for (var i = 0; i < results.length; i++) {
+          for (var i = 0; i < dataIn.length; i++) {
             // console.log('above http call and index of for loop is',i);
-            omdbUrl = 'http://www.omdbapi.com/?t='+results[i].show_title+'&r=json';
+            omdbUrl = 'http://www.omdbapi.com/?t='+dataIn[i].show_title+'&r=json';
             //hits omdb api in for loop
             $http({
               method:'GET',
@@ -126,30 +154,11 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
                 console.log('in the omdb.then if');
               }else{
                 console.log('in the omdb.then else, fire!');
-                display(frating,faward);
 
               }
-
               // console.log('omdbData',omdbData);
             });//end http.then function
           }//for loop
-
           $scope.seeMovies = omdbArray;
-
-
-
         }//compareMovies
-      };//search function
-
-      //filter omdb array by rating and award status and package in a scoped variable
-      var display = function(ratingsIn,awardsIn){
-        // console.log('display function hit',ratingsIn,awardsIn);
-        console.log('omdbArray in display function',omdbArray);
-        console.log('omdbArray.length',omdbArray.length);
-        for (var i = 0; i < omdbArray.length; i++) {
-          // console.log('omdb array index',omdbArray[i]);
-        }
-        // console.log(omdbArray);
-        // console.log('userArray',userArray);
-      };//scope.display function
     }]);//myApp.testController
