@@ -1,12 +1,52 @@
 console.log('js sourced');
-var omdbArray = [];
-var flixArray = [];
-var userArray = [];
+
 var myApp = angular.module('myApp',[]);
+var lock = new Auth0Lock('PLvMpMQ4IPOQ8Xl7AHpxYHTFXq9Nt1Or','mattcllhn.auth0.com');
+var logoutUrl = 'https://mattcllhn.auth0.com/v2/logout';
 //search > hit flix & omdb apis, append to global arrays
 //filter info > build userArray based on input conditionals
 //display info > anuglar whatever- could be put into display or whatever
 myApp.controller('testController',['$scope','$http',function($scope,$http){
+  // ------------------------------------------------------------------------------------- auth0
+  $scope.init = function(){
+    if(JSON.parse(localStorage.getItem('userProfile'))){
+      $scope.userProfile = JSON.parse(localStorage.getItem('userProfile'));
+      console.log('logged in',$scope.userProfile);
+      $scope.showUser = true;
+
+    }else {
+      $scope.showUser = false;
+      emptyLocalStorage();
+      console.log('in the else of the init function');
+    }
+  };//scope.init
+  $scope.logIn = function(){
+    console.log('button click works');
+  lock.show(function(err,profile,token){
+    if(err){
+      console.log(err);
+    }else {
+      console.log('success!',profile);
+      localStorage.setItem('userToken',token);
+      localStorage.setItem('userProfile',JSON.stringify(profile));
+      location.reload();
+    }
+  });//lock.show
+  };//logIn
+  $scope.logOut = function(){
+    $http({
+      method:'Get',
+      url: logoutUrl,
+    }).then(function(data){
+      if(data.data=='OK'){
+        emptyLocalStorage();
+        $scope.showUser=false;
+      }
+    });//http callback function
+  };//scope.logout
+  $scope.init();
+
+  // ------------------------------------------------------------------------------------- auth0
   console.log('NG');
   /// get me later
   //sanitize inputs >marshall & format variables, clear inputs
@@ -103,6 +143,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         //hits flix api
       };//search function
       function userFlix(search){
+        var flixArray = [];
         $http({
           method:'GET',
           url:search,
@@ -117,8 +158,9 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
 
 
         function omdbSearcher(dataIn){
+          var omdbArray = [];
+
           console.log('omdbsearcher called');
-          omdbArray = [];
           // console.log('data',results);
           // $scope.dataBack=results;
           for (var i = 0; i < dataIn.length; i++) {
@@ -185,3 +227,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
 
       };//scope.save
     }]);//myApp.testController
+    var emptyLocalStorage = function(){
+  localStorage.removeItem('userProfile');
+  localStorage.removeItem('userToken');
+};//emptyLocalStorage
