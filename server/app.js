@@ -24,9 +24,12 @@ app.post('/library',function(req,res){
     if(err){
       console.log(err);
     }else {
-      console.log('req.body.title',req.body.title); 
+      console.log('req.body.title',req.body.title);
+      var title = req.body.title;
       var resultsArray = [];
-      var queryResults = client.query('SELECT id FROM movies WHERE title = VALUES($1)',[req.body.title]);
+      console.log('SELECT id FROM movies WHERE title ='+title);
+      var queryResults = client.query('SELECT id FROM movies WHERE title ='+title);
+      console.log(queryResults);
         queryResults.on('row',function(row){
           resultsArray.push(row);
         });//on row function
