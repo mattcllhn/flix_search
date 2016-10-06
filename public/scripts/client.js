@@ -146,4 +146,19 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       $scope.modal = function(data){
         console.log(data+' clicked');
       };
+      $scope.save = function(data){
+        console.log('saving '+data+' to DB');
+        var thingToSend = {
+          title:data
+        };
+
+        $http({
+          method:'POST',
+          url:'/library',
+          data:thingToSend
+        }).then(function(data){
+          console.log('status=',data);
+        });//http.then function
+
+      };//scope.save
     }]);//myApp.testController
