@@ -25,6 +25,7 @@ app.post('/library',function(req,res){
       console.log(err);
     }else {
       client.query('INSERT INTO movies (title) VALUES ($1)',[req.body.title]);
+      done();
       res.sendStatus(201);
     }
   });//pg.connect function
@@ -34,7 +35,22 @@ app.post('/user',function(req,res){
 });//user post call
 
 app.get('/library', function(req,res){
-
+console.log('/library hit');
+  pg.connect(connectionString,function(err,client,done){
+    if (err){
+      console.log(error);
+    }else {
+        var resultsArray = [];
+        var queryResults = client.query('SELECT title FROM movies');
+          queryResults.on('row',function(row){
+            resultsArray.push(row);
+          });//on row function
+          queryResults.on('end',function(){
+            done();
+            return res.send(resultsArray);
+          });//on end function
+    }
+  });//pg.connect
 });//library get call
 
 app.use(express.static('public'));

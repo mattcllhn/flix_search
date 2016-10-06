@@ -123,7 +123,11 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           // $scope.dataBack=results;
           for (var i = 0; i < dataIn.length; i++) {
             // console.log('above http call and index of for loop is',i);
-            omdbUrl = 'http://www.omdbapi.com/?t='+dataIn[i].show_title+'&r=json';
+            if(dataIn[i].show_title!==undefined){
+              omdbUrl = 'http://www.omdbapi.com/?t='+dataIn[i].show_title+'&r=json';
+            }else{
+              omdbUrl = 'http://www.omdbapi.com/?t='+dataIn[i].title+'&r=json';
+            }
             //hits omdb api in for loop
             $http({
               method:'GET',
@@ -137,6 +141,17 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           console.log('omdbArray',omdbArray);
           $scope.seeMovies = omdbArray;
         }//compareMovies
+        function librarySearcher(titleIn){
+          console.log('hello from librarySearcher',titleIn);
+          $http({
+            method:"GET",
+            url:"/library",
+          }).then(function(libArray){
+            console.log('libArray',libArray);
+            var movies = libArray.data;
+            omdbSearcher(movies);
+          });//http call
+        }//librarysearcher
         function randomName(){
           var nameArray = ['smith','johnson','williams','jones','brown','davis','miller','wilson','moore','taylor'];
           console.log('random number',Math.round(Math.random()*10));
@@ -145,7 +160,15 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       }//randomName
       $scope.modal = function(data){
         console.log(data+' clicked');
-      };
+        switch (data) {
+          case data='library':
+          librarySearcher(data);
+          // console.log('hello from library portion of the switch');
+            break;
+          default:console.log('default');
+
+        }//switch
+      };//scope.modal function
       $scope.save = function(data){
         console.log('saving '+data+' to DB');
         var thingToSend = {
