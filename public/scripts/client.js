@@ -9,10 +9,9 @@ var myApp = angular.module('myApp',[]);
 myApp.controller('testController',['$scope','$http',function($scope,$http){
   console.log('NG');
   /// get me later
-  $scope.tester=[];
   //sanitize inputs >marshall & format variables, clear inputs
-  $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn,awardIn){
-    // console.log('raw inputs',actorIn, directorIn,ratingIn,awardIn);
+  $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
+    // console.log('raw inputs',actorIn, directorIn,ratingIn);
     //set minimum input length
     if( actorIn!==undefined && actorIn.length<3 || directorIn!==undefined && directorIn.length<3 ){
       alert('Seach fields must be greater than 3 characters');
@@ -35,12 +34,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       }else{
         director = undefined;}
         var rating = Number(ratingIn);
-        var award = false;
-        if(awardIn == 'yes'){
-          award = true;
-        }else{
-          award = false;
-        }
+
         // hack to add characters to search function becuase flix api requires more than 5 characters
         if(actor !==undefined && actor.length<5){
           actor+='%20';
@@ -51,31 +45,30 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         if (isNaN(rating)===true) {
           rating = 0;
         }
-        // console.log('formatted inputs ',actor,director, rating, award);
+        // console.log('formatted inputs ',actor,director, rating);
         //clear inputs
         $scope.actorIn = undefined;
         $scope.directorIn= undefined;
         $scope.ratingIn= undefined;
-        $scope.awardIn= undefined;
         //call search function
-        urlBuilder(actor,director,rating,award);
+        urlBuilder(actor,director,rating);
       };//sanitizeInputs
 
       //search flix api and loop through results hitting omdb api using title of each result
-      var  urlBuilder = function(factor,fdirector,frating,faward){
+      var  urlBuilder = function(factor,fdirector,frating){
         // console.log(typeof factor);
         var omdbUrl = 'http://www.omdbapi.com/?t='+'&r=json';
         var flixUrl = 'http://netflixroulette.net/api/api.php';
         var compiledParams = '';
-        // console.log('in search function',factor,fdirector,frating,faward);
+        // console.log('in search function',factor,fdirector,frating);
         //conditionals to build compiledParams
-        //both filled in
         if (factor=== undefined && fdirector=== undefined){
           console.log('mock blank function call');
           compiledParams = '?actor='+randomName();
           console.log('in the conditional',compiledParams);
 
-          // blankFlix();
+          //both filled in
+
         }
         else if(factor!== undefined && fdirector!== undefined){
           compiledParams+=('?actor='+factor+'&?director='+fdirector);
@@ -121,44 +114,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         });//end http.then function
       }//userFlix
 
-      //hits several times with a predetermined set of names
-      function blankFlix(){
-        console.log('hello from blankFlix');
-        var nameArray = ['clint'];
-        var searchUrl;
-        var j=0;
-        for (var i = 0; i < nameArray.length; i++) {
-        searchUrl = 'http://netflixroulette.net/api/api.php?actor='+nameArray[i];
-        $http({
-          method:'GET',
-          url:searchUrl,
-        }).then(function(flixData){
-          flixArray.push(flixData.data);
-          if (j<(nameArray.length-1)) {
-            console.log('in the flix if');
-            console.log('nameArray.length',nameArray.length-1);
-            console.log('iterator value',j);
-            j++;
-          }else{
-            console.log('in the flix else= mock function call');
-            console.log('nameArray.length',nameArray.length-1);
-            console.log('iterator value',j);
-            console.log('flixArray',flixArray);
-            console.log('flixArray',flixArray[0][1]);
-            console.log('flixArray',flixArray[0][2]);
-            console.log('flixArray',flixArray[0][3]);
-            console.log('flixArray',flixArray[0][4]);
-            console.log('flixArray',flixArray[0][5]);
-            console.log('flixArray',flixArray[0][6]);
 
-            // omdbSearcher(flixArray);
-          }
-
-
-        });//end http.then function
-      }//for loop
-
-    }//blankFlix
 
         function omdbSearcher(dataIn){
           console.log('omdbsearcher called');
@@ -175,12 +131,6 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
             }).then(function(omdbData){
               // console.log('index of omdbData',omdbData.data);
               omdbArray.push(omdbData.data);
-              if(omdbArray.length<flixArray.length){
-                console.log('in the omdb.then if',omdbData);
-              }else{
-                console.log('in the omdb.then else, fire!');
-                console.log('omdbArray',omdbArray);
-              }
               // console.log('omdbData',omdbData);
             });//end http.then function
           }//for loop
@@ -192,6 +142,8 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           console.log('random number',Math.round(Math.random()*10));
         var randomName = nameArray[Math.round(Math.random()*10)];
         return randomName;
-
-        }
+      }//randomName
+      $scope.modal = function(data){
+        console.log(data+' clicked');
+      };
     }]);//myApp.testController
