@@ -30,7 +30,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       localStorage.setItem('userToken',token);
       localStorage.setItem('userProfile',JSON.stringify(profile));
       location.reload();
-    }
+    }//else
   });//lock.show
   };//logIn
   $scope.logOut = function(){
@@ -41,6 +41,7 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
       if(data.data=='OK'){
         emptyLocalStorage();
         $scope.showUser=false;
+        location.reload();
       }
     });//http callback function
   };//scope.logout
@@ -183,8 +184,8 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           console.log('omdbArray',omdbArray);
           $scope.seeMovies = omdbArray;
         }//compareMovies
-        function librarySearcher(titleIn){
-          console.log('hello from librarySearcher',titleIn);
+        $scope.librarySearcher = function() {
+          console.log('hello from librarySearcher');
           $http({
             method:"GET",
             url:"/library",
@@ -193,25 +194,15 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
             var movies = libArray.data;
             omdbSearcher(movies);
           });//http call
-        }//librarysearcher
+        };//librarysearcher
         function randomName(){
           var nameArray = ['smith','johnson','williams','jones','brown','davis','miller','wilson','moore','taylor'];
           console.log('random number',Math.round(Math.random()*10));
         var randomName = nameArray[Math.round(Math.random()*10)];
         return randomName;
       }//randomName
-      $scope.modal = function(data){
-        console.log(data+' clicked');
-        switch (data) {
-          case data='library':
-          librarySearcher(data);
-          // console.log('hello from library portion of the switch');
-            break;
-          default:console.log('default');
 
-        }//switch
-      };//scope.modal function
-      $scope.save = function(data){
+      $scope.saveMovie = function(data){
         console.log('saving '+data+' to DB');
         var thingToSend = {
           title:data
