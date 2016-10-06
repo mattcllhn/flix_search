@@ -69,7 +69,7 @@
         </p>
         <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="http://vignette2.wikia.nocookie.net/uncyclopedia/images/d/dc/Chuck-norris-002.jpg/revision/latest?cb=20080312162141" />
         <button ng-show= "showUser==false" type="button" name="button" ng-click = "logIn()">add movie</button>
-        <button ng-show= "showUser==true" type="button" name="button" ng-click = "saveMovie(x.Title)">add movie</button>
+        <button ng-show= "showUser==true" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.clientID)">add movie</button>
 
         {{x}}
 

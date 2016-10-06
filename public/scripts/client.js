@@ -202,12 +202,12 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         return randomName;
       }//randomName
 
-      $scope.saveMovie = function(data){
-        console.log('saving '+data+' to DB');
+      $scope.saveMovie = function(title,client){
+        console.log('saving '+title+' to DB for client id:'+client);
         var thingToSend = {
-          title:data
-        };
-
+          title:title,
+          client:client
+        };//thingToSend
         $http({
           method:'POST',
           url:'/library',

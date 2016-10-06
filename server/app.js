@@ -24,10 +24,29 @@ app.post('/library',function(req,res){
     if(err){
       console.log(err);
     }else {
-      client.query('INSERT INTO movies (title) VALUES ($1)',[req.body.title]);
-      done();
-      res.sendStatus(201);
-    }
+      console.log('req.body.title',req.body.title); 
+      var resultsArray = [];
+      var queryResults = client.query('SELECT id FROM movies WHERE title = VALUES($1)',[req.body.title]);
+        queryResults.on('row',function(row){
+          resultsArray.push(row);
+        });//on row function
+        queryResults.on('end',function(){
+
+    //     if(resultsArray.length>0){
+    //       console.log('selected movie already exists');
+    //   // client.query('INSERT INTO movies (title) VALUES ($1)',[req.body.title]);
+    //   done();
+    //   res.sendStatus(201);
+    // }else {
+    //   console.log('selected movies does not yet exist');
+    //   done();
+    //   res.sendStatus(200);
+    // }//nested else
+  });//on end function
+    done();
+    res.sendStatus(200);
+
+  }//first else
   });//pg.connect function
 });//library post call
 app.post('/user',function(req,res){
@@ -49,7 +68,7 @@ console.log('/library hit');
             done();
             return res.send(resultsArray);
           });//on end function
-    }
+    }//else
   });//pg.connect
 });//library get call
 
