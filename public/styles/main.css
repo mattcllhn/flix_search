@@ -16,7 +16,11 @@
 .contentRow{
   float:left;
   clear:left;
+  margin:10px 20px 10px 20px;
 }
+/*.glyphicon {
+   font-family:'Glyphicons Halflings' !important;
+}*/
 /*.titleContainer{
 float:left;
 }*/
@@ -27,11 +31,9 @@ float:left;
   /*height: auto;*/
   /*min-height: 100%;*/
   /*height: 900px;*/
-}*/
 /*.btn{
   background-color: black;
   border-color: black;
 }*/
 /*.inputsContainer{
   /*width:350px;*/
-}*/
