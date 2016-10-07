@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <title>What's good on Netflix</title>
   <link rel="stylesheet" href="../vendors/bootstrap.min.css" media="screen" title="no title">
+  <link rel="stylesheet" href="bootstrap3.2.0/css/bootstrap.min.css">
+
   <!-- <link rel="stylesheet" href="../vendors/glyphicons-halflings-regular.eot" media="screen" title="no title">
   <link rel="stylesheet" href="../vendors/glyphicons-halflings-regular.svg" media="screen" title="no title">
   <link rel="stylesheet" href="../vendors/glyphicons-halflings-regular.ttf" media="screen" title="no title">
@@ -20,15 +22,34 @@
 <body ng-app = "myApp">
 
   <div ng-controller="testController">
-    <div class="page-header">
-      <div class="titleContainer">
+
+    <div class="row page-header">
+      <div class="row">
+        <div class=" col-sm-4 loginContainer">
+
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li ng-show= "showUser==false" ng-model = "logIn" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logIn()" href="#">Log In</a></li>
+                <li ng-show= "showUser==true" ng-model = "logOut" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logOut()" href="#">Log Out</a></li>
+                <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher(userProfile.user_id)"href = "">Your Library</a></li>
+              </ul>
+            </div>
+        </div>
+
+      <div class="col-sm-4 titleContainer">
         <h1>Search Netflix <br><small>for stuff that's actually good</small></h1>
       </div>
-    <div class="inputsContainer">
+    <div class="col-sm-4 inputsContainer">
+      <div class="row">
 
+        <div class="col-xs">
+          <input  type="text" name="name" value=""ng-model = "actorIn" placeholder="Filter by Actor">
+          <input  type="text" name="name" value=""ng-model = "directorIn" placeholder="Filter by director">
 
-      <input  type="text" name="name" value=""ng-model = "actorIn" placeholder="Filter by Actor">
-      <input  type="text" name="name" value=""ng-model = "directorIn" placeholder="Filter by director">
+        </div>
+        <div class="col-xs">
+
       <label for="rating">Critic Rating</label>  <select class="" name="rating" ng-model = "ratingIn" >
         <option>10</option>
         <option>9.5</option>
@@ -51,41 +72,54 @@
         <option ng-selected = "selected">1</option>
       </select>
 
-      <button class="btn btn-primary dropdown-toggle" ng-show = "ratingIn===undefined && actorIn===undefined && directorIn===undefined" type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Random Search</button>
-      <button class="btn btn-primary dropdown-toggle" ng-show = "ratingIn!==undefined || actorIn!==undefined || directorIn!==undefined"type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Search</button>
+
+      <button class="btn btn-primary dropdown-toggle" type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Search</button>
+      <!-- <button class="btn btn-primary dropdown-toggle" ng-show = "ratingIn===undefined && actorIn===undefined && directorIn===undefined" type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)"><span class="glyphicon glyphicon-font"></span></button> -->
     </div>
-    <div class="loginContainer">
-
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown"><span class="caret"></span></button>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-            <li ng-show= "showUser==false" ng-model = "logIn" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logIn()" href="#">Log In</a></li>
-            <li ng-show= "showUser==true" ng-model = "logOut" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logOut()" href="#">Log Out</a></li>
-            <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher(userProfile.user_id)"href = "">Your Library</a></li>
-          </ul>
-        </div>
-    </div>
-    </div>
-
-<div class = "contentArea">
-
-    <div   ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
-      <h3>{{x.Title}}</h3>
-      <p>
-        {{x.Plot}}
-      </p>
-      <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="http://vignette2.wikia.nocookie.net/uncyclopedia/images/d/dc/Chuck-norris-002.jpg/revision/latest?cb=20080312162141" />
-      <button ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button">redirect tester</button>
-      <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
-      <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
-
-      <!-- {{x}} -->
 
     </div>
   </div>
 
+
+    </div>
+  </div>
+
+<div class = " row contentArea">
+  <div class="row contentRow">
+
+    <div class = "col-md-2" ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
+      <!-- <h3>{{x.Title}}</h3>
+      <p>
+        {{x.Plot}}
+      </p> -->
+      <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="http://vignette2.wikia.nocookie.net/uncyclopedia/images/d/dc/Chuck-norris-002.jpg/revision/latest?cb=20080312162141" />
+      <button ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
+      <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
+      <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
+
+      <!-- {{x}} -->
+    </div>
+
+    </div>
+  </div>
+</div>
+
   </body>
   </html>
+
+  <!-- <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        One of three columns
+      </div>
+      <div class="col-sm-4">
+        One of three columns
+      </div>
+      <div class="col-sm-4">
+        One of three columns
+      </div>
+    </div>
+  </div> -->
   <!-- <span class="caret"></span> -->
   <!-- ng-show = "x.imdbRating >= ratingIn" -->
   <!-- <span class="glyphicon glyphicon-ok-circle"> -->
