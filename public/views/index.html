@@ -57,7 +57,6 @@
         <option ng-selected = "selected">1</option>
       </select>
 
-      <button ng-click = "redirect()" ng-href="{{url}}" type="button" name="button">redirect tester</button>
       <button ng-show = "ratingIn===undefined && actorIn===undefined && directorIn===undefined" type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Random Search</button>
       <button ng-show = "ratingIn!==undefined || actorIn!==undefined || directorIn!==undefined"type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Search</button>
       <span class="glyphicons glyphicons-fingerprint"></span>
@@ -68,6 +67,7 @@
           {{x.Plot}}
         </p>
         <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="http://vignette2.wikia.nocookie.net/uncyclopedia/images/d/dc/Chuck-norris-002.jpg/revision/latest?cb=20080312162141" />
+        <button ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button">redirect tester</button>
         <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
         <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
 

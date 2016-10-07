@@ -224,8 +224,10 @@ myApp.controller('testController',['$scope','$http','$window',function($scope,$h
         });//http.then function
 
       };//scope.save
-      $scope.redirect = function($scope,$window){
-        $scope.url = 'https://google.com';
+      $scope.redirect = function(title){
+        console.log(title+' clicked');
+        var uri = encodeURIComponent(title).replace(/%20/g,'%2520');
+        $window.open('https://www.netflix.com/search/'+uri);
       };//redirectTester
     }]);//myApp.testController
     var emptyLocalStorage = function(){
