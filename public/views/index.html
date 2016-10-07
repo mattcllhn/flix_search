@@ -30,8 +30,8 @@
             <div class="dropdown">
               <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                <li ng-show= "showUser==false" ng-model = "logIn" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logIn()" href="#">Log In</a></li>
-                <li ng-show= "showUser==true" ng-model = "logOut" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logOut()" href="#">Log Out</a></li>
+                <li ng-show= "showUser==false" ng-model = "logIn" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logIn()" href="">Log In</a></li>
+                <li ng-show= "showUser==true" ng-model = "logOut" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logOut()" href="">Log Out</a></li>
                 <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher(userProfile.user_id)"href = "">Your Library</a></li>
               </ul>
             </div>
@@ -92,11 +92,11 @@
       <p>
         {{x.Plot}}
       </p> -->
-      <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="http://vignette2.wikia.nocookie.net/uncyclopedia/images/d/dc/Chuck-norris-002.jpg/revision/latest?cb=20080312162141" />
-      <button ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
+
+      <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="<img src = '../images/chuck_norris.jpg />'" />
+      <button class = "play"ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
       <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
       <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
-
       <!-- {{x}} -->
     </div>
 
