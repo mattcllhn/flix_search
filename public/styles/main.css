@@ -1,5 +1,24 @@
-.dropdown{
+
+.page-header{
+  background-color: #ef3525;
+  margin:0 0 0 0;
+}
+.contentArea{
+  background-color: black;
+  position: relative;
+  height: auto;
+  min-height: 100%;
+  /*height: 900px;*/
+}
+.btn{
+  background-color: black;
+  border-color: black;
+}
+/*.inputsContainer{
+  float:right;
+}*/
+
+/*.dropdown{
   float:right;
   margin-right: 100px;
-
-}
+}*/
