@@ -30,7 +30,7 @@
           <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
             <li ng-show= "showUser==false" ng-model = "logIn" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logIn()" href="#">Log In</a></li>
             <li ng-show= "showUser==true" ng-model = "logOut" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logOut()" href="#">Log Out</a></li>
-            <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher()"href = "">Your Library</a></li>
+            <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher(userProfile.user_id)"href = "">Your Library</a></li>
           </ul>
         </div>
       <input  type="text" name="name" value=""ng-model = "actorIn" placeholder="Filter by Actor">
@@ -57,7 +57,7 @@
         <option ng-selected = "selected">1</option>
       </select>
 
-
+      <button ng-click = "redirect()" ng-href="{{url}}" type="button" name="button">redirect tester</button>
       <button ng-show = "ratingIn===undefined && actorIn===undefined && directorIn===undefined" type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Random Search</button>
       <button ng-show = "ratingIn!==undefined || actorIn!==undefined || directorIn!==undefined"type="button" name="button" ng-click="sanitizeInputs(actorIn,directorIn,ratingIn,awardIn)">Search</button>
       <span class="glyphicons glyphicons-fingerprint"></span>
@@ -68,8 +68,8 @@
           {{x.Plot}}
         </p>
         <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="http://vignette2.wikia.nocookie.net/uncyclopedia/images/d/dc/Chuck-norris-002.jpg/revision/latest?cb=20080312162141" />
-        <button ng-show= "showUser==false" type="button" name="button" ng-click = "logIn()">add movie</button>
-        <button ng-show= "showUser==true" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.clientID)">add movie</button>
+        <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
+        <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
 
         {{x}}
 

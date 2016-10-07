@@ -6,7 +6,7 @@ var logoutUrl = 'https://mattcllhn.auth0.com/v2/logout';
 //search > hit flix & omdb apis, append to global arrays
 //filter info > build userArray based on input conditionals
 //display info > anuglar whatever- could be put into display or whatever
-myApp.controller('testController',['$scope','$http',function($scope,$http){
+myApp.controller('testController',['$scope','$http','$window',function($scope,$http,$window){
   // ------------------------------------------------------------------------------------- auth0
   $scope.init = function(){
     if(JSON.parse(localStorage.getItem('userProfile'))){
@@ -152,14 +152,15 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           console.log(flixData);
           flixArray=flixData.data;
           console.log('flixArray',flixArray);
-          omdbSearcher(flixArray);
+          omdbSearcher(flixArray,false);
         });//end http.then function
       }//userFlix
 
 
 
-        function omdbSearcher(dataIn){
+        function omdbSearcher(dataIn,lib){
           var omdbArray = [];
+          $scope.libStatus = lib;
 
           console.log('omdbsearcher called');
           // console.log('data',results);
@@ -184,15 +185,21 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
           console.log('omdbArray',omdbArray);
           $scope.seeMovies = omdbArray;
         }//compareMovies
-        $scope.librarySearcher = function() {
-          console.log('hello from librarySearcher');
+        $scope.librarySearcher = function(client) {
+          console.log('hello from librarySearcher client id is:',client);
+          var objectToSend = {
+            client:client
+          };
+//"auth0|57f7c72577ac1f112db1fbee"
+//"auth0|57f694bbb9e883840d434221"
           $http({
-            method:"GET",
+            method:"PUT",
             url:"/library",
+            data:objectToSend
           }).then(function(libArray){
             console.log('libArray',libArray);
             var movies = libArray.data;
-            omdbSearcher(movies);
+            omdbSearcher(movies, true);
           });//http call
         };//librarysearcher
         function randomName(){
@@ -217,6 +224,9 @@ myApp.controller('testController',['$scope','$http',function($scope,$http){
         });//http.then function
 
       };//scope.save
+      $scope.redirect = function($scope,$window){
+        $scope.url = 'https://google.com';
+      };//redirectTester
     }]);//myApp.testController
     var emptyLocalStorage = function(){
   localStorage.removeItem('userProfile');
