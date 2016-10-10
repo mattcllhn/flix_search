@@ -2,12 +2,22 @@
 .page-header{
   /*background-color: #ef3525;*/
   padding-top: 25px;
+  padding-bottom: 0;
   margin-top: 0;
+  margin-bottom:0;
   background-color: black;
 
 }
+.titleContainer{
+  padding-bottom: 0px;
+}
+
 h1{
   color: white;
+  margin-bottom:0;
+}
+.netflix{
+  color: #ef3525;
 }
 label{
   color:white;

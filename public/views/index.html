@@ -32,7 +32,7 @@
           </div>
 
           <div class="col-sm-4 titleContainer">
-            <h1>Search Netflix <br><small>for stuff that's actually good</small></h1>
+            <h1>Search <span class = "netflix">Netflix</span><br><small>for stuff that's actually good</small></h1>
           </div>
           <div class="col-sm-4 inputsContainer">
             <div class="row">
@@ -83,7 +83,7 @@
           <span  ng-show = "hovering==true"><span class = "playButton glyphicon glyphicon-play-circle" ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"></span>
           <span class = "addButton glyphicon glyphicon-plus-sign" ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()"></span>
           <span class = "addButton glyphicon glyphicon-plus-sign" ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)"></span></span>
-          <img  class = "img-thumbnail img-responsive background" ng-src="{{x.Poster}}" onerror = "this.src = ../images/chuck_norris.jpg" />
+          <img  class = "img-thumbnail img-responsive background" ng-src="{{x.Poster || '../images/chuck_norris.jpg'}}" />
 
           <!-- {{x}} -->
 
