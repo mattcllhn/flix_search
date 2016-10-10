@@ -24,24 +24,24 @@
   height:auto;
 }
 .resultContainer{
-  height:330px;
+  height:275px;
 }
 .background{
   height: 100%;
   width: auto;
 }
 .playButton{
-margin:150px 60px 150px 70px;
+margin-top:50%;
+margin-left: 25%;
+
 position: absolute;
--webkit-transition: all 2s ease;
-transition: all 2s ease-in-out;
+font-size: 100px;
 
 }
 .addButton{
-margin:0 0 320px 90px;
+margin:0 0 320px 150px;
 position: absolute;
--webkit-transition: all 2s ease;
-transition: all 2s ease-in-out;
+font-size:25px;
 
 
 }
