@@ -1,13 +1,31 @@
 
 .page-header{
   /*background-color: #ef3525;*/
-  padding-top: 15px;
+  padding-top: 25px;
   margin-top: 0;
+  background-color: black;
 
+}
+h1{
+  color: white;
+}
+label{
+  color:white;
 }
 .dropdown{
   float:left;
   margin-left: 90px;
+
+}
+.dropdown-toggle{
+  background-color: #ef3525;
+  border-color: #ef3525;
+}
+.ratingIn{
+  cursor: pointer;
+  background-color: #ef3525;
+  border-color: #ef3525;
+
 }
 .btn-primary{
   margin-top: 10px;
@@ -33,15 +51,18 @@
 .playButton{
 margin-top:50%;
 margin-left: 25%;
-
 position: absolute;
 font-size: 100px;
+opacity:0.9;
+cursor:pointer;
 
 }
 .addButton{
 margin:0 0 320px 150px;
 position: absolute;
 font-size:25px;
+cursor: pointer;
+
 
 
 }
