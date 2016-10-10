@@ -84,20 +84,22 @@
     </div>
   </div>
 
-<div class = " row contentArea">
-  <div class="row contentRow">
+<div class = " row contentArea" >
+  <div class="row contentRow" >
 
-    <div class = "col-md-2" ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
+    <div class = "col-md-2 thumbnails resultContainer" ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
       <!-- <h3>{{x.Title}}</h3>
       <p>
         {{x.Plot}}
       </p> -->
 
-      <img class = "img-thumbnail" ng-src="{{x.Poster}}" alt="<img src = '../images/chuck_norris.jpg />'" />
+      <img  class = "img-thumbnail" ng-src="{{x.Poster}}" onerror = "this.src = ../images/chuck_norris.jpg" />
       <button class = "play"ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
       <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
       <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
       <!-- {{x}} -->
+
+
     </div>
 
     </div>
@@ -123,3 +125,4 @@
   <!-- <span class="caret"></span> -->
   <!-- ng-show = "x.imdbRating >= ratingIn" -->
   <!-- <span class="glyphicon glyphicon-ok-circle"> -->
+<!-- class = "img-thumbnail" -->
