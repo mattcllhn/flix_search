@@ -214,6 +214,15 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
       });//http.then function
 
     };//scope.save
+    $scope.mouseIn = function(){
+      console.log('mouseIn');
+        this.hovering = true;
+
+    };
+    $scope.mouseOut = function(){
+      console.log('mouseOut');
+        this.hovering = false;
+    };
     $scope.redirect = function(title){
       console.log(title+' clicked');
       var uri = encodeURIComponent(title).replace(/%20/g,'%2520');

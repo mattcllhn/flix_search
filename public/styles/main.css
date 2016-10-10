@@ -13,16 +13,39 @@
   margin-top: 10px;
   margin-left: 30px;
 }
+.contentArea{
+  margin: 0 20px 0 20px;
+}
 .contentRow{
   float:left;
   clear:left;
   /*margin:10px 20px 10px 20px;*/
   width: 100%;
-  height:
+  height:auto;
 }
 .resultContainer{
   height:330px;
 }
+.background{
+  height: 100%;
+  width: auto;
+}
+.playButton{
+margin:150px 60px 150px 70px;
+position: absolute;
+-webkit-transition: all 2s ease;
+transition: all 2s ease-in-out;
+
+}
+.addButton{
+margin:0 0 320px 90px;
+position: absolute;
+-webkit-transition: all 2s ease;
+transition: all 2s ease-in-out;
+
+
+}
+
 .thumbnails{
   float:left;
 }

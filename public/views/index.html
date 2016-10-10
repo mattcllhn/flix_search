@@ -32,7 +32,7 @@
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                 <li ng-show= "showUser==false" ng-model = "logIn" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logIn()" href="">Log In</a></li>
                 <li ng-show= "showUser==true" ng-model = "logOut" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "logOut()" href="">Log Out</a></li>
-                <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher(userProfile.user_id)"href = "">Your Library</a></li>
+                <li ng-show= "showUser==true" ng-model = "library" role="presentation"><a role="menuitem" tabindex="-1" ng-click = "librarySearcher(userProfile.user_id)"href = "">Your Library</li>
               </ul>
             </div>
         </div>
@@ -87,16 +87,16 @@
 <div class = " row contentArea" >
   <div class="row contentRow" >
 
-    <div class = "col-md-2 thumbnails resultContainer" ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
+    <div ng-mouseleave = "hovering=false" ng-mouseover ="hovering=true" class = "col-md-2 thumbnails resultContainer" ng-show = "x.imdbRating >= ratingIn || ratingIn===undefined" ng-repeat = "x in seeMovies">
       <!-- <h3>{{x.Title}}</h3>
       <p>
         {{x.Plot}}
       </p> -->
+      <span  ng-show = "hovering==true"><button class = "playButton" ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
+      <button class = "addButton" ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
+      <button class = "addButton" ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button></span>
+      <img  class = "img-thumbnail img-responsive background" ng-src="{{x.Poster}}" onerror = "this.src = ../images/chuck_norris.jpg" />
 
-      <img  class = "img-thumbnail" ng-src="{{x.Poster}}" onerror = "this.src = ../images/chuck_norris.jpg" />
-      <button class = "play"ng-click = "redirect(x.Title)" ng-href="{{url}}" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
-      <button ng-show= "showUser==false && libStatus==false" type="button" name="button" ng-click = "logIn()">add movie</button>
-      <button ng-show= "showUser==true && libStatus==false" type="button" name="button" ng-click = "saveMovie(x.Title,userProfile.user_id)">add movie</button>
       <!-- {{x}} -->
 
 
@@ -104,7 +104,6 @@
 
     </div>
   </div>
-</div>
 
   </body>
   </html>
