@@ -170,7 +170,9 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
             url:omdbUrl
           }).then(function(omdbData){
             // console.log('index of omdbData',omdbData.data);
+            if( omdbData.data.Poster !== undefined || omdbData.data.Poster !== 'N/A' ) {
             omdbArray.push(omdbData.data);
+          }
             // console.log('omdbData',omdbData);
           });//end http.then function
         }//for loop
