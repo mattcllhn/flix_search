@@ -107,9 +107,7 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
         console.log('mock blank function call');
         compiledParams = '?actor='+randomName();
         console.log('in the conditional',compiledParams);
-
         //both filled in
-
       }
       else if(factor!== undefined && fdirector!== undefined){
         compiledParams+=('?actor='+factor+'&?director='+fdirector);
@@ -170,7 +168,8 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
             url:omdbUrl
           }).then(function(omdbData){
             // console.log('index of omdbData',omdbData.data);
-            if( omdbData.data.Poster !== undefined || omdbData.data.Poster !== 'N/A' ) {
+            if( omdbData.data.Poster !== undefined && omdbData.data.Poster !== 'N/A' ) {
+              console.log('poster here----->',omdbData.data.poster);
             omdbArray.push(omdbData.data);
           }
             // console.log('omdbData',omdbData);
@@ -200,7 +199,6 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
       var randomName = nameArray[Math.round(Math.random()*10)];
       return randomName;
     }//randomName
-
     $scope.saveMovie = function(title,client){
       console.log('saving '+title+' to DB for client id:'+client);
       var thingToSend = {
@@ -214,17 +212,7 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
       }).then(function(data){
         console.log('status=',data);
       });//http.then function
-
     };//scope.save
-    $scope.mouseIn = function(){
-      console.log('mouseIn');
-        this.hovering = true;
-
-    };
-    $scope.mouseOut = function(){
-      console.log('mouseOut');
-        this.hovering = false;
-    };
     $scope.redirect = function(title){
       console.log(title+' clicked');
       var uri = encodeURIComponent(title).replace(/%20/g,'%2520');
