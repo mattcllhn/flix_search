@@ -98,8 +98,8 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
     //search flix api and loop through results hitting omdb api using title of each result
     var  urlBuilder = function(factor,fdirector,frating){
       // console.log(typeof factor);
-      var omdbUrl = 'http://www.omdbapi.com/?t='+'&r=json';
-      var flixUrl = 'http://netflixroulette.net/api/api.php';
+      var omdbUrl = 'https://www.omdbapi.com/?t='+'&r=json';
+      var flixUrl = 'https://netflixroulette.net/api/api.php';
       var compiledParams = '';
       // console.log('in search function',factor,fdirector,frating);
       //conditionals to build compiledParams
@@ -158,9 +158,9 @@ $scope.sanitizeInputs = function(actorIn,directorIn,ratingIn){
         for (var i = 0; i < dataIn.length; i++) {
           // console.log('above http call and index of for loop is',i);
           if(dataIn[i].show_title!==undefined){
-            omdbUrl = 'http://www.omdbapi.com/?t='+dataIn[i].show_title+'&r=json';
+            omdbUrl = 'https://www.omdbapi.com/?t='+dataIn[i].show_title+'&r=json';
           }else{
-            omdbUrl = 'http://www.omdbapi.com/?t='+dataIn[i].title+'&r=json';
+            omdbUrl = 'https://www.omdbapi.com/?t='+dataIn[i].title+'&r=json';
           }
           //hits omdb api in for loop
           $http({
