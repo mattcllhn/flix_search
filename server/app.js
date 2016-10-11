@@ -3,7 +3,15 @@ var app = express();
 var bodyParser = require('body-parser');
 var path = require('path');
 var pg = require('pg');
-var connectionString = 'postgress://localhost:5432/solo';
+var connectionString = '';
+
+if(process.env.DATABASE_URL !== undefined) {
+    console.log('env connection string');
+    connectionString = process.env.DATABASE_URL;
+    pg.defaults.ssl = true;
+} else {
+    connectionString = 'postgres://localhost:5432/flix_searcher';
+}
 
 var port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended:true}));
